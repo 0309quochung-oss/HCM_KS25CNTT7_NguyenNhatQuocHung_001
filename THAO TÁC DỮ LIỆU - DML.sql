@@ -1,71 +1,35 @@
-CREATE DATABASE book_worm;
-USE book_worm;
+INSERT INTO Product VALUES
+(1, 'MacBook Air M1', 'Apple', 20000000, 10),
+(2, 'iPhone 13', 'Apple', 18000000, 15),
+(3, 'Laptop Dell XPS', 'Dell', 22000000, 8),
+(4, 'Chuột Logitech', 'Logitech', 500000, 50),
+(5, 'Bàn phím cơ', 'Razer', 1500000, 20);
 
-CREATE TABLE authors (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100),
-    birth_year INT,
-    nationality VARCHAR(50)
-);
+INSERT INTO Customer VALUES
+(1, 'Nguyen Van A', 'a@gmail.com', '0901234567', 'HCM'),
+(2, 'Tran Thi B', 'b@gmail.com', NULL, 'Ha Noi'),
+(3, 'Le Van C', 'c@gmail.com', '0912345678', 'Da Nang'),
+(4, 'Pham Thi D', 'd@gmail.com', NULL, 'Can Tho'),
+(5, 'Hoang Van E', 'e@gmail.com', '0987654321', 'Binh Duong');
 
-CREATE TABLE books (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    book_name VARCHAR(255),
-    category VARCHAR(50),
-    author_id INT,
-    price INT NOT NULL DEFAULT 0 CHECK (price >= 0),
-    publish_year INT,
-    FOREIGN KEY (author_id) REFERENCES authors(id)
-);
+INSERT INTO `Order` VALUES
+(1, '2026-04-01', 38000000, 1),
+(2, '2026-04-02', 18000000, 2),
+(3, '2026-04-03', 22000000, 3),
+(4, '2026-04-04', 500000, 4),
+(5, '2026-04-05', 1500000, 5);
 
-CREATE TABLE customers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
-    phone VARCHAR(20) UNIQUE,
-    registration_date DATE DEFAULT (CURRENT_DATE)
-);
+INSERT INTO Order_Detail VALUES
+(1, 1, 1, 20000000),
+(1, 2, 1, 18000000),
+(2, 2, 1, 18000000),
+(3, 3, 1, 22000000),
+(4, 4, 1, 500000),
+(5, 5, 1, 1500000);
 
-INSERT INTO authors (full_name, birth_year, nationality) VALUES
-('Nguyen Nhat Anh', 1955, 'Vietnam'),
-('J.K. Rowling', 1965, 'UK'),
-('Dale Carnegie', 1888, 'USA');
+UPDATE Product
+SET price = price * 1.1
+WHERE brand = 'Apple';
 
-INSERT INTO books (book_name, category, author_id, price, publish_year) VALUES
-('Mat Biec', 'Van hoc', 1, 150000, 1990),
-('Kinh Van Hoa', 'Van hoc', 1, 120000, 1995),
-('Harry Potter 1', 'Ky ao', 2, 250000, 1997),
-('Harry Potter 2', 'Ky ao', 2, 260000, 1998),
-('Dac Nhan Tam', 'Ky nang', 3, 100000, 1936),
-('Quang Ganh Lo Di', 'Ky nang', 3, 110000, 1948),
-('Toi Thay Hoa Vang Tren Co Xanh', 'Van hoc', 1, 140000, 2010),
-('Harry Potter 3', 'Ky ao', 2, 270000, 1999);
-
-INSERT INTO customers (full_name, email, phone) VALUES
-('Nguyen Van A', 'acsc123@gmail.com', '0901234567'),
-('Tran Thi B', 'blabla99@gmail.com', '0912345678'),
-('Le Van C', 'heheboi@gmail.com', '0923456789'),
-('Pham Thi D', 'randomacc@gmail.com', '0934567890'),
-('Hoang Van E', 'mailrac123@gmail.com', '0945678901');
-
--- Them khach hang moi voi email bi trung
--- Giai thich: Lenh nay se bi tu choi va bao loi (Error Code: 1062. Duplicate entry) 
--- vi cot 'email' trong bang 'customers' da duoc thiet lap rang buoc UNIQUE.
-INSERT INTO customers (full_name, email, phone) VALUES
-('Khach Hang F', 'acsc123@gmail.com', '0988888888');
-SELECT *
-FROM Books
-WHERE Category = 'Trinh thám' AND Price < 100000;
-
-SELECT *
-FROM Customers
-WHERE Email LIKE '%@gmail.com';
-
-SELECT *
-FROM Books
-ORDER BY Price DESC
-LIMIT 3;
-
-UPDATE Books
-SET Price = Price * 0.9
-WHERE PublishYear < 2020;
+DELETE FROM Customer
+WHERE phone IS NULL;
